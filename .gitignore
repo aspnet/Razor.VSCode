@@ -41,5 +41,4 @@ node_modules
 .vscode-test/**
 client/out/*
 .gitignore
-tsconfig.json
 tslint.json
