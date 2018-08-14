@@ -70,12 +70,13 @@
         "test": "npm run compile && npm run test:unit && npm run test:functional",
         "test:unit": "mocha --recursive out/unittest",
         "test:unit:watch": "mocha -r ts-node/register --recursive unittest/**/*.ts --watch --watch-extensions ts",
-        "test:functional": "node ./node_modules/vscode/bin/test",
+        "test:functional": "cross-env CODE_TESTS_WORKSPACE=../test/testapps node ./node_modules/vscode/bin/test",
         "lint": "tslint -p ./"
     },
     "devDependencies": {
         "@types/mocha": "2.2.42",
         "@types/node": "7.0.43",
+        "cross-env": "^5.2.0",
         "ts-node": "^7.0.1",
         "tslint": "^5.8.0",
         "typescript": "2.6.1"
