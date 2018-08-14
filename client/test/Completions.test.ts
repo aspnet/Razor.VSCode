@@ -22,6 +22,7 @@ describe('Completions', () => {
 
     afterEach(async () => {
         await vscode.commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
+        await new Promise(r => setTimeout(r, 500)); // The preceding promise completes too soon, so give it more time
     });
 
     it('Can complete HTML tag', async () => {
