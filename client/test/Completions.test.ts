@@ -7,7 +7,7 @@ import * as assert from 'assert';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { extensionActivated } from '../src/extension';
-import { basicRazorAppRoot } from './TestUtil';
+import { basicRazorAppRoot, pollUntil } from './TestUtil';
 
 let doc: vscode.TextDocument;
 let editor: vscode.TextEditor;
@@ -22,7 +22,7 @@ describe('Completions', () => {
 
     afterEach(async () => {
         await vscode.commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
-        await new Promise(r => setTimeout(r, 500)); // The preceding promise completes too soon, so give it more time
+        await pollUntil(() => vscode.window.visibleTextEditors.length === 0, 1000);
     });
 
     it('Can complete HTML tag', async () => {
