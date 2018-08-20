@@ -11,10 +11,21 @@
         "Other"
     ],
     "activationEvents": [
-        "onLanguage:razor"
+        "onLanguage:aspnetrazor"
     ],
     "main": "./out/src/extension",
     "contributes": {
+        "languages": [{
+            "id": "aspnetrazor",
+            "extensions": [".cshtml"],
+            "mimetypes": ["text/x-cshtml"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "aspnetrazor",
+            "scopeName": "text.aspnetrazor",
+            "path": "./syntaxes/aspnetrazor.tmLanguage.json"
+        }],
         "commands": [
             {
                 "command": "extension.showRazorCSharpWindow",
