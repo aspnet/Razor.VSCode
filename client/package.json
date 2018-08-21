@@ -11,20 +11,20 @@
         "Other"
     ],
     "activationEvents": [
-        "onLanguage:aspnetrazor"
+        "onLanguage:aspnetcorerazor"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "languages": [{
-            "id": "aspnetrazor",
+            "id": "aspnetcorerazor",
             "extensions": [".cshtml"],
             "mimetypes": ["text/x-cshtml"],
             "configuration": "./language-configuration.json"
         }],
         "grammars": [{
-            "language": "aspnetrazor",
-            "scopeName": "text.aspnetrazor",
-            "path": "./syntaxes/aspnetrazor.tmLanguage.json"
+            "language": "aspnetcorerazor",
+            "scopeName": "text.aspnetcorerazor",
+            "path": "./syntaxes/aspnetcorerazor.tmLanguage.json"
         }],
         "commands": [
             {
