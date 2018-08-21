@@ -34,7 +34,7 @@ export async function activate(context: ExtensionContext) {
         localRegistrations.push(
             vscode.languages.registerCompletionItemProvider(
                 RazorLanguage.id,
-                new RazorCompletionItemProvider(csharpFeature, languageServiceClient)),
+                new RazorCompletionItemProvider(csharpFeature, htmlFeature, languageServiceClient)),
             projectTracker.register(),
             documentTracker.register(),
             csharpFeature.register(),

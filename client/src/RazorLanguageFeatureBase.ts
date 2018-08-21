@@ -5,27 +5,34 @@
 
 import * as vscode from 'vscode';
 import { RazorCSharpFeature } from './CSharp/RazorCSharpFeature';
+import { RazorHtmlFeature } from './Html/RazorHtmlFeature';
 import { RazorLanguageServiceClient } from './RazorLanguageServiceClient';
 import { LanguageKind } from './RPC/LanguageKind';
 
 export class RazorLanguageFeatureBase {
     constructor(
         protected readonly csharpFeature: RazorCSharpFeature,
+        protected readonly htmlFeature: RazorHtmlFeature,
         protected readonly serviceClient: RazorLanguageServiceClient) {
     }
 
     protected async getProjection(document: vscode.TextDocument, position: vscode.Position) {
         const languageResponse = await this.serviceClient.languageQuery(position, document.uri);
 
-        if (languageResponse.kind === LanguageKind.CSharp) {
-            const projectionProvider = this.csharpFeature.projectionProvider;
-            const projectedDocument = await projectionProvider.getDocument(document.uri);
-            const projectedUri = projectedDocument.projectedUri;
+        switch (languageResponse.kind) {
+            case LanguageKind.CSharp:
+            case LanguageKind.Html:
+                const projectionProvider = languageResponse.kind === LanguageKind.CSharp
+                    ? this.csharpFeature.projectionProvider
+                    : this.htmlFeature.projectionProvider;
+                const projectedDocument = await projectionProvider.getDocument(document.uri);
+                const projectedUri = projectedDocument.projectedUri;
 
-            return { uri: projectedUri, position: languageResponse.position } as ProjectionResult;
+                return { uri: projectedUri, position: languageResponse.position } as ProjectionResult;
+
+            default:
+                return null;
         }
-
-        return null;
     }
 }
 
