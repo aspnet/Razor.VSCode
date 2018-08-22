@@ -49,9 +49,9 @@ export class RazorCompletionItemProvider
                 completionItem.textEdit = undefined;
             }
 
-            const isIncomplete = completions instanceof Array ? true
+            const isIncomplete = completions instanceof Array ? false
                 : completions ? completions.isIncomplete
-                    : true;
+                    : false;
             return new vscode.CompletionList(completionItems, isIncomplete);
         }
 
