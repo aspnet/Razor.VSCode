@@ -10,6 +10,7 @@ import { extensionActivated } from '../src/extension';
 import {
     basicRazorAppRoot,
     csharpExtensionReady,
+    dotnetRestore,
     htmlLanguageFeaturesExtensionReady,
     pollUntil,
     waitForDocumentUpdate,
@@ -22,6 +23,7 @@ describe('Signature help', () => {
     before(async () => {
         await htmlLanguageFeaturesExtensionReady();
         await csharpExtensionReady();
+        await dotnetRestore(basicRazorAppRoot);
     });
 
     beforeEach(async () => {
@@ -38,7 +40,9 @@ describe('Signature help', () => {
 
     it('Can get signature help for JavaScript', async () => {
         const lastLine = new vscode.Position(doc.lineCount - 1, 0);
-        await editor.edit(edit => edit.insert(lastLine, '<script>console.log(</script>'));
+        const codeToInsert = '<script>console.log(</script>';
+        await editor.edit(edit => edit.insert(lastLine, codeToInsert));
+        await waitForDocumentUpdate(doc.uri, document => document.getText().indexOf(codeToInsert) >= 0);
 
         const signatureHelp = await vscode.commands.executeCommand<vscode.SignatureHelp>(
             'vscode.executeSignatureHelpProvider',
