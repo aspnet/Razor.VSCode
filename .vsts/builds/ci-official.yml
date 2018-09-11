@@ -28,14 +28,6 @@ phases:
   - script: .\build.cmd -ci /p:Configuration=$(BuildConfiguration)
     displayName: Run build.cmd
 
-  - task: DotNetCoreCLI@2
-    displayName: Publish language server native executables
-    inputs:
-      command: custom
-      custom: msbuild
-      arguments: -restore -t:PublishAllRids -p:Configuration=Release
-      workingDirectory: src\Microsoft.AspNetCore.Razor.LanguageServer
-
   - task: PublishTestResults@2
     displayName: Publish test results
     condition: always()

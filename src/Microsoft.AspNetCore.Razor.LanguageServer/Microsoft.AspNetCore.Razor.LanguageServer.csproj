@@ -20,4 +20,9 @@
     <ProjectReference Include="..\..\modules\Razor\src\Microsoft.VisualStudio.Editor.Razor\Microsoft.VisualStudio.Editor.Razor.csproj" />
   </ItemGroup>
 
+  <Target
+    Name="PublishLanguageServerNativeExecutables"
+    AfterTargets="Pack"
+    DependsOnTargets="PublishAllRids" />
+
 </Project>
