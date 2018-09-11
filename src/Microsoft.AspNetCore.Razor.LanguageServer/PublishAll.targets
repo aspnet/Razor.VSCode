@@ -22,7 +22,7 @@
 
       <!-- Transform RuntimeIdentifierForPublish items to project items to pass to MSBuild task -->
       <ProjectToPublish Include="@(RuntimeIdentifierForPublish->'$(MSBuildProjectFullPath)')">
-        <AdditionalProperties>RuntimeIdentifier=%(RuntimeIdentifierForPublish.Identity)</AdditionalProperties>
+        <AdditionalProperties>RuntimeIdentifier=%(RuntimeIdentifierForPublish.Identity);PublishDir=../../artifacts/build/$(Configuration)/%(RuntimeIdentifierForPublish.Identity)/</AdditionalProperties>
       </ProjectToPublish>
     </ItemGroup>
 
