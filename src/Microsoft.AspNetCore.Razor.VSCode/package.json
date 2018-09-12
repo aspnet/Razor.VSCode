@@ -11,6 +11,7 @@
     "vscode-languageclient": "^5.1.0"
   },
   "main": "./dist/extension.js",
+  "types": "./dist/extension.d.ts",
   "engines": {
     "vscode": "^1.25.0"
   },
