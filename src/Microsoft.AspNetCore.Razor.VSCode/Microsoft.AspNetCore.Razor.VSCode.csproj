@@ -12,11 +12,22 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="2.9.2" />
+    <_TSInputs Include="src\**\*" />
+    <_TSOutputs Include="dist\**\*" />
   </ItemGroup>
+
+  <Target Name="ClearDistDir" BeforeTargets="Clean">
+    <RemoveDir Directories="dist" />
+  </Target>
 
   <Target Name="EnsureNpmRestored" BeforeTargets="CompileTypeScript" Condition="!Exists('node_modules')">
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
     <Exec Command="npm install" />
+  </Target>
+
+  <Target Name="TsLint" BeforeTargets="CompileTypeScript" DependsOnTargets="EnsureNpmRestored"
+          Inputs="@(_TSInputs)" Outputs="@(_TSOutputs)">
+    <Exec Command="npm run lint" />
   </Target>
 
 </Project>
