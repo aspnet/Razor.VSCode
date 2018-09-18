@@ -3,6 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
+import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import * as razorExtensionPackage from 'microsoft.aspnetcore.razor.vscode';
@@ -17,6 +18,10 @@ export async function activate(context: vscode.ExtensionContext) {
     // we know the Razor Language Server is at a specific path within this repo
     const languageServerDir = path.join(
         __dirname, '..', '..', '..', 'src', 'Microsoft.AspNetCore.Razor.LanguageServer', 'bin', 'Debug', 'net461');
+
+    if (!fs.existsSync(languageServerDir)) {
+        throw new Error(`The Razor Language Server project has not yet been built - could not find ${languageServerDir}`);
+    }
 
     await razorExtensionPackage.activate(context, languageServerDir);
     activationResolver();
