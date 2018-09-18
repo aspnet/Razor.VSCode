@@ -1,0 +1,10 @@
+{
+  "sign": [
+    {
+      "certificate": "Microsoft",
+      "values": [
+        "*/*.exe"
+      ]
+    }
+  ]
+}

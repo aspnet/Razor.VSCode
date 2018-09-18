@@ -39,6 +39,10 @@
              Targets="Build;Publish"
              BuildInParallel="false" />
 
+    <MSBuild Projects="$(RepositoryRoot)build\sign.proj"
+              Targets="Restore;CodeSign"
+              Properties="VisualStudioMSBuildx86Path=$(VisualStudioMSBuildx86Path);Configuration=$(Configuration)" />
+
     <!-- Now build a .zip file from each platform's directory and write it to 'artifacts' -->
     <PropertyGroup>
       <ZipOutputDir>$(RepositoryRoot)artifacts\build\languageserver\</ZipOutputDir>
