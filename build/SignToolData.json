@@ -3,9 +3,7 @@
     {
       "certificate": "Microsoft",
       "values": [
-        "win10-x64/Microsoft.AspNetCore.Razor.LanguageServer.exe",
-        "linux-x64/Microsoft.AspNetCore.Razor.LanguageServer",
-        "osx-x64/Microsoft.AspNetCore.Razor.LanguageServer"
+        "win10-x64/Microsoft.AspNetCore.Razor.LanguageServer.exe"
       ]
     }
   ]
