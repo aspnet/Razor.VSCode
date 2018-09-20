@@ -16,7 +16,7 @@
     <SignToolOptions Condition=" '$(SignType)' == 'test' ">$(SignToolOptions) -testSign</SignToolOptions>
     <SignToolOptions>$(SignToolOptions) -nugetPackagesPath $(RestorePackagesPath)</SignToolOptions>
     <SignToolOptions>$(SignToolOptions) -config "$(MSBuildThisFileDirectory)SignToolData.json"</SignToolOptions>
-    <SignToolOptions>$(SignToolOptions) $(RepositoryRoot)src\Microsoft.AspNetCore.Razor.LanguageServer\bin\Debug\net461\publish</SignToolOptions>
+    <SignToolOptions>$(SignToolOptions) $(RepositoryRoot)src\Microsoft.AspNetCore.Razor.LanguageServer\bin\$(Configuration)\net461\publish</SignToolOptions>
   </PropertyGroup>
 
   <ItemGroup>
