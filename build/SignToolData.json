@@ -1,7 +1,7 @@
 {
   "sign": [
     {
-      "certificate": "Microsoft",
+      "certificate": "MicrosoftSHA2",
       "values": [
         "win10-x64/Microsoft.AspNetCore.Razor.LanguageServer.exe"
       ]
