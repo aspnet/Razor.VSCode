@@ -16,7 +16,7 @@
     <SignToolOptions Condition=" '$(SignType)' == 'test' ">$(SignToolOptions) -testSign</SignToolOptions>
     <SignToolOptions>$(SignToolOptions) -nugetPackagesPath $(RestorePackagesPath)</SignToolOptions>
     <SignToolOptions>$(SignToolOptions) -config "$(MSBuildThisFileDirectory)SignToolData.json"</SignToolOptions>
-    <SignToolOptions>$(SignToolOptions) $(RepositoryRoot)src\Microsoft.AspNetCore.Razor.LanguageServer\bin\$(Configuration)\net461\publish</SignToolOptions>
+    <SignToolOptions>$(SignToolOptions) $(RidsPublishDir)</SignToolOptions>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <Target Name="CodeSign">
+    <Error Condition="'$(RidsPublishDir)'==''" Text="RidsPublishDir not specified" />
     <Exec Command="&quot;$(CodeSignToolPath)&quot; $(SignToolOptions)" />
   </Target>
 

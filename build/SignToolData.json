@@ -3,7 +3,14 @@
     {
       "certificate": "MicrosoftSHA2",
       "values": [
-        "win10-x64/Microsoft.AspNetCore.Razor.LanguageServer.exe"
+        "*/Microsoft.AspNetCore.Razor.LanguageServer.dll",
+
+        // Specifying each of the RID-specific executables directly, not using
+        // a wildcard, so the build only passes if they are all found
+        "linux-x64/Microsoft.AspNetCore.Razor.LanguageServer",
+        "osx-x64/Microsoft.AspNetCore.Razor.LanguageServer",
+        "win-x64/Microsoft.AspNetCore.Razor.LanguageServer.exe",
+        "win-x86/Microsoft.AspNetCore.Razor.LanguageServer.exe"
       ]
     }
   ]
