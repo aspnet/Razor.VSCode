@@ -1,6 +1,6 @@
 # Razor.VSCode
 
-The [Razor syntax]() provides a fast, terse, clean and lightweight way to combine server code with HTML to create dynamic web content. This repo contains the tooling to enable Razor in Visual Studio Code. The Razor tooling ships as part of the [Visual Studio Code C# extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp).
+The [Razor syntax](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor) provides a fast, terse, clean and lightweight way to combine server code with HTML to create dynamic web content. This repo contains the tooling to enable Razor in Visual Studio Code. The Razor tooling ships as part of the [Visual Studio Code C# extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp).
 
 ## Get started
 
