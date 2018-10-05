@@ -48,6 +48,7 @@ To run the built Razor tooling in Visual Studio Code:
   ```
 
 - Open the solution folder in Visual Studio Code
+- Set the "razor.disabled" setting to true in the Visual Studio Code Workspace settings (*File* -> *Preferences* -> *Settings* -> *Workspace Settings*)
 - Run in the debugger (F5) using the *Extension* launch profile
 - A new Visual Studio Code instance will open as an Extension Development Host
 - Try out Razor tooling features in `Pages/Index.cshtml` or any other Razor file
