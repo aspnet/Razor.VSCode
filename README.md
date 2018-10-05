@@ -5,7 +5,7 @@ The [Razor syntax](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor)
 ## Get started
 
 To use the Razor tooling for Visual Studio Code:
-- Install [Visual Studio Code](https://code.visualstudio.com) + [latest C# extension]
+- Install [Visual Studio Code](https://code.visualstudio.com) + [latest C# extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp)
 - Open any project containing Razor (cshtml) files to get intellisense and diagnostics:
 
   ![Razor tooling for Visual Studio Code](https://user-images.githubusercontent.com/1874516/46520947-c0996b00-c832-11e8-9860-9c4490a90fe5.gif)
