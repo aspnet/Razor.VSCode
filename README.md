@@ -15,7 +15,7 @@ To use the Razor tooling for Visual Studio Code:
 ## Disabling the Razor tooling
 
 To disable the Razor tooling in Visual Studio Code:
-- Open the Visual Studio Code User Settings (Ctrl+,)
+- Open the Visual Studio Code User Settings: *File* -> *Preferences* -> *Settings*
 - Search for "razor"
 - Check the "Razor: Disabled" checkbox
 
@@ -24,13 +24,15 @@ To disable the Razor tooling in Visual Studio Code:
 Prerequisites:
 - [Visual Studio Code](https://code.visualstudio.com) + [latest C# extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp)
 - [Node.js](https://nodejs.org) (8.12.0 or later)
-- Restore Git submodules by running the following:
+- Clode the repo and restore Git submodules by running the following:
 
   ```
+  git clone https://github.com/aspnet/Razor.VSCode.git
+  cd Razor.VSCode
   git submodule update --init --recursive
   ```
 
-This repo uses the same set of build tools as the other ASP.NET Core projects. The [developer documentation](https://github.com/aspnet/Home/wiki/Building-from-source) for building is the authoritative guide. **Please read this document and check your PATH setup if you have trouble building or using Visual Studio**
+This repo uses the same set of build tools as the other ASP.NET Core projects. The [developer documentation](https://github.com/aspnet/Home/wiki/Building-from-source) for building is the authoritative guide. **Please read this document and check your PATH setup if you have trouble building or using Visual Studio Code**
 
 To build at the command line, run `build.cmd` or `build.sh` from the solution directory.
 
@@ -49,7 +51,7 @@ To run the built Razor tooling in Visual Studio Code:
 - Run in the debugger (F5) using the *Extension* launch profile
 - A new Visual Studio Code instance will open as an Extension Development Host
 - Try out Razor tooling features in `Pages/Index.cshtml` or any other Razor file
-  - NOTE: there may be a delay while the Razor Language Service starts up. See the *Razor Log* and *OmniSharp log* in the output window (Ctrl+Shift+U) to see the current status
+  - NOTE: there may be a delay while the Razor Language Service starts up. See the *Razor Log* and *OmniSharp log* in the output window (*View* -> *Output*) to see the current status
 
 ## Run all extension tests
 
