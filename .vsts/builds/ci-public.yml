@@ -5,6 +5,6 @@ trigger:
 phases:
 - template: ../templates/build.yml
   parameters:
-    queueName: VSEng-MicroBuildVS2017
+    queueName: Hosted VS2017
     variables:
       SkipCodeSign: true
