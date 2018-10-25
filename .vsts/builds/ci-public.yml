@@ -1,0 +1,10 @@
+trigger:
+- master
+- release/*
+
+phases:
+- template: ../templates/build.yml
+  parameters:
+    queueName: VSEng-MicroBuildVS2017
+    variables:
+      SkipCodeSign: true
