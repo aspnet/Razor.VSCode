@@ -21,10 +21,10 @@
 
   <ItemGroup>
     <!-- We need this to compile but don't want it referenced by the project. -->
-    <ProjectReference Include="..\Microsoft.AspNetCore.Razor.OmniSharpPlugin\Microsoft.AspNetCore.Razor.OmniSharpPlugin.csproj">
+    <!-- <ProjectReference Include="..\Microsoft.AspNetCore.Razor.OmniSharpPlugin\Microsoft.AspNetCore.Razor.OmniSharpPlugin.csproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <Targets>Publish</Targets>
-    </ProjectReference>
+    </ProjectReference> -->
   </ItemGroup>
 
   <Target Name="PublishLanguageServerNativeExecutables" AfterTargets="Pack" DependsOnTargets="PublishAllRids" />
