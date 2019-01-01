@@ -65,6 +65,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer
                     .WithHandler<RazorCompletionEndpoint>()
                     .WithHandler<RazorLanguageEndpoint>()
                     .WithHandler<RazorProjectEndpoint>()
+                    .WithHandler<RazorDiagnosticsHandler>()
                     .WithServices(services =>
                     {
                         services.AddSingleton<RemoteTextLoaderFactory, DefaultRemoteTextLoaderFactory>();
