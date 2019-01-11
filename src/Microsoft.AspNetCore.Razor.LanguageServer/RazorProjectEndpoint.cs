@@ -95,7 +95,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer
             }
 
             await Task.Factory.StartNew(
-                () => _projectService.UpdateProject(request.ProjectFilePath, request.Configuration),
+                () => _projectService.UpdateProject(request.ProjectFilePath, request.Configuration, request.TagHelpers),
                 CancellationToken.None,
                 TaskCreationOptions.None,
                 _foregroundDispatcher.ForegroundScheduler);

@@ -6,15 +6,16 @@ using System.Reflection;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.CodeAnalysis.Razor;
 
-namespace Microsoft.AspNetCore.Razor.LanguageServer
+namespace Microsoft.AspNetCore.Razor.LanguageServer.Common
 {
-    internal class ProjectEngineFactory_3_0 : IProjectEngineFactory
+    internal class ProjectEngineFactory_1_0 : IProjectEngineFactory
     {
-        private const string AssemblyName = "Microsoft.AspNetCore.Mvc.Razor.Extensions";
+        private const string AssemblyName = "Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X";
+
         public RazorProjectEngine Create(RazorConfiguration configuration, RazorProjectFileSystem fileSystem, Action<RazorProjectEngineBuilder> configure)
         {
             // Rewrite the assembly name into a full name just like this one, but with the name of the MVC design time assembly.
-            var assemblyName = new AssemblyName(typeof(ProjectEngineFactory_3_0).Assembly.FullName);
+            var assemblyName = new AssemblyName(typeof(RazorProjectEngine).Assembly.FullName);
             assemblyName.Name = AssemblyName;
 
             var extension = new AssemblyExtension(configuration.ConfigurationName, Assembly.Load(assemblyName));

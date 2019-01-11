@@ -22,6 +22,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
         private readonly HostDocumentFactory _hostDocumentFactory;
         private readonly ProjectResolver _projectResolver;
         private readonly DocumentVersionCache _documentVersionCache;
+        private readonly TagHelperStore _tagHelperStore;
         private readonly FilePathNormalizer _filePathNormalizer;
         private readonly DocumentResolver _documentResolver;
         private readonly ILogger _logger;
@@ -32,6 +33,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
             DocumentResolver documentResolver,
             ProjectResolver projectResolver,
             DocumentVersionCache documentVersionCache,
+            TagHelperStore tagHelperStore,
             FilePathNormalizer filePathNormalizer,
             ProjectSnapshotManagerAccessor projectSnapshotManagerAccessor,
             ILoggerFactory loggerFactory)
@@ -61,6 +63,11 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
                 throw new ArgumentNullException(nameof(documentVersionCache));
             }
 
+            if (tagHelperStore == null)
+            {
+                throw new ArgumentNullException(nameof(tagHelperStore));
+            }
+
             if (filePathNormalizer == null)
             {
                 throw new ArgumentNullException(nameof(filePathNormalizer));
@@ -81,6 +88,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
             _documentResolver = documentResolver;
             _projectResolver = projectResolver;
             _documentVersionCache = documentVersionCache;
+            _tagHelperStore = tagHelperStore;
             _filePathNormalizer = filePathNormalizer;
             _projectSnapshotManagerAccessor = projectSnapshotManagerAccessor;
             _logger = loggerFactory.CreateLogger<DefaultRazorProjectService>();
@@ -220,7 +228,10 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
             TryMigrateDocumentsFromRemovedProject(project);
         }
 
-        public override void UpdateProject(string filePath, RazorConfiguration configuration)
+        public override void UpdateProject(
+            string filePath,
+            RazorConfiguration configuration,
+            IReadOnlyList<TagHelperDescriptor> tagHelpers)
         {
             _foregroundDispatcher.AssertForegroundThread();
 
@@ -234,10 +245,13 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem
                 return;
             }
 
+            _logger.LogInformation($"Updating project '{filePath}' TagHelpers ({tagHelpers.Count}).");
+            _tagHelperStore.UpdateTagHelpers(project.FilePath, tagHelpers);
+
             var currentConfiguration = project.HostProject.Configuration;
             if (currentConfiguration.ConfigurationName == configuration?.ConfigurationName)
             {
-                _logger.LogTrace($"Updating project '{filePath}' ignored. The project is already using configuration '{configuration.ConfigurationName}'.");
+                _logger.LogTrace($"Updating project '{filePath}'. The project is already using configuration '{configuration.ConfigurationName}'.");
                 return;
             }
 

@@ -1,7 +1,15 @@
 ﻿@page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
     var message = "Hello";
+    var val = true;
 }
 
 <h1>@(message)</h1>
+
+
+<form asp-antiforgery="true"></form>
+<link href="asdf" asp-append-version="val" />
+

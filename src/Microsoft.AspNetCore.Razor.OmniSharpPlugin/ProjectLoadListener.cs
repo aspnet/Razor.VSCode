@@ -8,12 +8,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.LanguageServer.Serialization;
 using Microsoft.AspNetCore.Razor.OmniSharpPlugin;
 using Microsoft.Build.Execution;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using OmniSharp;
 using OmniSharp.MSBuild.Notification;
 
 namespace Microsoft.AspNetCore.Razor.OmnisharpPlugin
@@ -33,15 +35,36 @@ namespace Microsoft.AspNetCore.Razor.OmnisharpPlugin
         private const string DebugRazorOmnisharpPluginPropertyName = "_DebugRazorOmnisharpPlugin_";
         private readonly ILogger _logger;
         private readonly IEnumerable<RazorConfigurationProvider> _projectConfigurationProviders;
+        private readonly ProjectEngineFactory _projectEngineFactory;
+        private readonly TagHelperResolver _tagHelperResolver;
+        private readonly OmniSharpWorkspace _workspace;
 
         [ImportingConstructor]
         public ProjectLoadListener(
             [ImportMany] IEnumerable<RazorConfigurationProvider> projectConfigurationProviders,
+            ProjectEngineFactory projectEngineFactory,
+            TagHelperResolver tagHelperResolver,
+            OmniSharpWorkspace workspace,
             ILoggerFactory loggerFactory)
         {
             if (projectConfigurationProviders == null)
             {
                 throw new ArgumentNullException(nameof(projectConfigurationProviders));
+            }
+
+            if (projectEngineFactory == null)
+            {
+                throw new ArgumentNullException(nameof(projectEngineFactory));
+            }
+
+            if (tagHelperResolver == null)
+            {
+                throw new ArgumentNullException(nameof(tagHelperResolver));
+            }
+
+            if (workspace == null)
+            {
+                throw new ArgumentNullException(nameof(workspace));
             }
 
             if (loggerFactory == null)
@@ -51,9 +74,12 @@ namespace Microsoft.AspNetCore.Razor.OmnisharpPlugin
 
             _logger = loggerFactory.CreateLogger<ProjectLoadListener>();
             _projectConfigurationProviders = projectConfigurationProviders;
+            _projectEngineFactory = projectEngineFactory;
+            _tagHelperResolver = tagHelperResolver;
+            _workspace = workspace;
         }
 
-        public void ProjectLoaded(ProjectLoadedEventArgs args)
+        public async void ProjectLoaded(ProjectLoadedEventArgs args)
         {
             try
             {
@@ -79,11 +105,18 @@ namespace Microsoft.AspNetCore.Razor.OmnisharpPlugin
                 }
 
                 var razorConfiguration = GetRazorConfiguration(args.ProjectInstance);
+                var projectDirectory = args.ProjectInstance.GetPropertyValue(MSBuildProjectDirectoryPropertyName);
+                var fileSystem = RazorProjectFileSystem.Create(projectDirectory);
+                var projectEngine = _projectEngineFactory.Create(razorConfiguration, fileSystem, (builder) => { });
+                var project = _workspace.CurrentSolution.GetProject(args.Id);
+                var tagHelpers = await _tagHelperResolver.GetTagHelpersAsync(project, projectEngine, CancellationToken.None);
+
                 var projectConfiguration = new RazorProjectConfiguration()
                 {
                     ProjectFilePath = projectFilePath,
                     Configuration = razorConfiguration,
                     TargetFramework = targetFramework,
+                    TagHelpers = tagHelpers,
                 };
 
                 var serializedOutput = JsonConvert.SerializeObject(

@@ -1,5 +1,11 @@
-﻿@{
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
     var message = "Hello";
 }
 
 <h1>@(message)</h1>
+
+<form asp-antiforgery="false"></form>
+
+<link href="asdf" asp-append-version="true" />

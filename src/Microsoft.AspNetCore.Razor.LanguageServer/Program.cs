@@ -67,6 +67,9 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer
                     .WithHandler<RazorProjectEndpoint>()
                     .WithServices(services =>
                     {
+                        services.AddSingleton<TagHelperResolver, DefaultTagHelperResolver>();
+                        services.AddSingleton<TagHelperStore, DefaultTagHelperStore>();
+
                         services.AddSingleton<RemoteTextLoaderFactory, DefaultRemoteTextLoaderFactory>();
                         services.AddSingleton<ProjectResolver, DefaultProjectResolver>();
                         services.AddSingleton<DocumentResolver, DefaultDocumentResolver>();

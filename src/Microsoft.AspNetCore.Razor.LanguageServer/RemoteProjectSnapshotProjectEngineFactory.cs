@@ -3,31 +3,21 @@
 
 using System;
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.LanguageServer.Common;
 using Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor;
-using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer
 {
     internal class RemoteProjectSnapshotProjectEngineFactory : DefaultProjectSnapshotProjectEngineFactory
     {
+        public static readonly IFallbackProjectEngineFactory FallbackProjectEngineFactory = new FallbackProjectEngineFactory();
+
         private readonly FilePathNormalizer _filePathNormalizer;
 
-        public RemoteProjectSnapshotProjectEngineFactory(
-            IFallbackProjectEngineFactory fallback,
-            Lazy<IProjectEngineFactory, ICustomProjectEngineFactoryMetadata>[] factories,
-            FilePathNormalizer filePathNormalizer) : base(fallback, factories)
+        public RemoteProjectSnapshotProjectEngineFactory(FilePathNormalizer filePathNormalizer) : 
+            base(FallbackProjectEngineFactory, ProjectEngineFactories.Factories)
         {
-            if (fallback == null)
-            {
-                throw new ArgumentNullException(nameof(fallback));
-            }
-
-            if (factories == null)
-            {
-                throw new ArgumentNullException(nameof(factories));
-            }
-
             if (filePathNormalizer == null)
             {
                 throw new ArgumentNullException(nameof(filePathNormalizer));
@@ -37,8 +27,8 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer
         }
 
         public override RazorProjectEngine Create(
-            RazorConfiguration configuration, 
-            RazorProjectFileSystem fileSystem, 
+            RazorConfiguration configuration,
+            RazorProjectFileSystem fileSystem,
             Action<RazorProjectEngineBuilder> configure)
         {
             var remoteFileSystem = new RemoteRazorProjectFileSystem(_filePathNormalizer);

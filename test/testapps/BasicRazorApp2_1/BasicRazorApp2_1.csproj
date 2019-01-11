@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <_DebugRazorOmnisharpPlugin_>false</_DebugRazorOmnisharpPlugin_>
   </PropertyGroup>
 
   <ItemGroup>
