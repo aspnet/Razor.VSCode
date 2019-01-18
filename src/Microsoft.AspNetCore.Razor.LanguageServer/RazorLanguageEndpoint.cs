@@ -4,25 +4,30 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Legacy;
+using Microsoft.AspNetCore.Razor.LanguageServer.Common;
 using Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Logging;
+using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
+using OmniSharp.Extensions.LanguageServer.Protocol.Server;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer
 {
-    internal class RazorLanguageEndpoint : IRazorLanguageQueryHandler
+    internal class RazorLanguageEndpoint : IRazorLanguageQueryHandler, IDocumentColorHandler
     {
         private readonly ForegroundDispatcher _foregroundDispatcher;
         private readonly DocumentResolver _documentResolver;
         private readonly DocumentVersionCache _documentVersionCache;
         private readonly ILogger _logger;
+        private ColorProviderCapability _capability;
 
         public RazorLanguageEndpoint(
             ForegroundDispatcher foregroundDispatcher,
@@ -195,6 +200,48 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer
             projectedPosition = default;
             projectedIndex = default;
             return false;
+        }
+
+        public async Task<Container<ColorInformation>> Handle(DocumentColorParams request, CancellationToken cancellationToken)
+        {
+            var document = await Task.Factory.StartNew(() =>
+            {
+                _documentResolver.TryResolveDocument(request.TextDocument.Uri.AbsolutePath, out var documentSnapshot);
+
+                return documentSnapshot;
+            }, CancellationToken.None, TaskCreationOptions.None, _foregroundDispatcher.ForegroundScheduler);
+
+            var output = await document.GetGeneratedOutputAsync();
+            var sourceText = await document.GetTextAsync();
+            var tagHelperColorSpans = output
+                .GetSyntaxTree()
+                .GetTagHelperSpans()
+                .Select(span => new ColorInformation()
+            {
+                    Color = new Color()
+                    {
+                        Alpha = 100,
+                        Red = 0,
+                        Green = 128,
+                        Blue = 128,
+                    },
+                    Range = RazorDiagnosticConverter.ConvertSpanToRange(span.Span, sourceText),
+                });
+
+            return new Container<ColorInformation>(tagHelperColorSpans);
+        }
+
+        public DocumentColorRegistrationOptions GetRegistrationOptions()
+        {
+            return new DocumentColorRegistrationOptions()
+            {
+                DocumentSelector = RazorDefaults.Selector,
+            };
+        }
+
+        public void SetCapability(ColorProviderCapability capability)
+        {
+            _capability = capability;
         }
     }
 }

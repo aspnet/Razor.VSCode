@@ -4,5 +4,4 @@
     "omnisharp.path": "1.32.9-beta.56",
     "omnisharp.projectLoadTimeout": 600,
     "razor.languageServer.debug": false,
-    "razor.trace": "Verbose"
 }

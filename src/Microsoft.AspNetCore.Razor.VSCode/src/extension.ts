@@ -28,6 +28,7 @@ import { RazorProjectManager } from './RazorProjectManager';
 import { RazorProjectTracker } from './RazorProjectTracker';
 import { RazorSignatureHelpProvider } from './RazorSignatureHelpProvider';
 import { TelemetryReporter } from './TelemetryReporter';
+import { RazorDocumentColorProvider } from './RazorDocumentColorProvider';
 
 export async function activate(context: ExtensionContext, languageServerDir: string, eventStream: HostEventStream) {
     const telemetryReporter = new TelemetryReporter(eventStream);
@@ -69,6 +70,7 @@ export async function activate(context: ExtensionContext, languageServerDir: str
                 documentSynchronizer,
                 documentManager,
                 languageServiceClient);
+            // const documentColorProvider = new RazorDocumentColorProvider();
 
             localRegistrations.push(
                 languageConfiguration.register(),
@@ -81,6 +83,9 @@ export async function activate(context: ExtensionContext, languageServerDir: str
                     RazorLanguage.id,
                     signatureHelpProvider,
                     '(', ','),
+                // vscode.languages.registerColorProvider(
+                //     RazorLanguage.documentSelector,
+                //     documentColorProvider),
                 projectTracker.register(),
                 projectManager.register(),
                 documentManager.register(),
