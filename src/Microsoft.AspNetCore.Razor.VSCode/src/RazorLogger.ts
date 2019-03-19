@@ -97,7 +97,7 @@ ${error.stack}`;
 
 function readOwnPackageJson() {
     const packageJsonPath = findInDirectoryOrAncestor(__dirname, 'package.json');
-    return require(packageJsonPath);
+    return JSON.parse(fs.readFileSync(packageJsonPath).toString());
 }
 
 function findInDirectoryOrAncestor(dir: string, filename: string) {
