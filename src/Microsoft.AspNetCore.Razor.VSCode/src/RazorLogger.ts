@@ -79,7 +79,7 @@ ${error.stack}`;
 
         this.log(
             '--------------------------------------------------------------------------------');
-        this.log(`Razor.VSCode version ${packageJsonContents.version}`);
+        this.log(`Razor.VSCode version ${packageJsonContents.defaults.razor}`);
         this.log(
             '--------------------------------------------------------------------------------');
         this.log(`Razor's trace level is currently set to '${Trace[this.trace]}'`);
