@@ -1,8 +1,6 @@
 {
   "name": "microsoft.aspnetcore.razor.vscode",
-  "defaults": {
-    "version": "0.0.1"
-  },
+  "version": "0.0.1",
   "description": "Implements parts of a VS Code extension for Razor language support.",
   "devDependencies": {
     "@types/node": "^10.9.4",
