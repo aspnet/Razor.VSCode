@@ -5,7 +5,7 @@ trigger:
 phases:
 - template: ../templates/build.yml
   parameters:
-    queueName: VSEng-MicroBuildVS2017
+    queueName: BuildPool.Windows.10.Amd64.VS2019
     variables:
       SignType: real
       TeamName: AspNetCore
