@@ -5,6 +5,6 @@ trigger:
 phases:
 - template: ../templates/build.yml
   parameters:
-    queueName: Hosted VS2017
+    queueName: BuildPool.Windows.10.Amd64.VS2019.Open
     variables:
       SkipCodeSign: true
