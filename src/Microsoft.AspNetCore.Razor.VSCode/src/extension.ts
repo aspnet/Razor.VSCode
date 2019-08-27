@@ -17,6 +17,7 @@ import { RazorCompletionItemProvider } from './RazorCompletionItemProvider';
 import { RazorDocumentManager } from './RazorDocumentManager';
 import { RazorDocumentSynchronizer } from './RazorDocumentSynchronizer';
 import { RazorDocumentTracker } from './RazorDocumentTracker';
+import { RazorHoverProvider } from './RazorHoverProvider';
 import { RazorLanguage } from './RazorLanguage';
 import { RazorLanguageConfiguration } from './RazorLanguageConfiguration';
 import { RazorLanguageServerClient } from './RazorLanguageServerClient';
@@ -69,6 +70,10 @@ export async function activate(context: ExtensionContext, languageServerDir: str
                 documentSynchronizer,
                 documentManager,
                 languageServiceClient);
+            const hoverProvider = new RazorHoverProvider(
+                documentSynchronizer,
+                documentManager,
+                languageServiceClient);
 
             localRegistrations.push(
                 languageConfiguration.register(),
@@ -81,6 +86,9 @@ export async function activate(context: ExtensionContext, languageServerDir: str
                     RazorLanguage.id,
                     signatureHelpProvider,
                     '(', ','),
+                vscode.languages.registerHoverProvider(
+                    RazorLanguage.documentSelector,
+                    hoverProvider),
                 projectTracker.register(),
                 projectManager.register(),
                 documentManager.register(),
